@@ -84,4 +84,30 @@ router.post("/:id/locations", async (req, res) => {
   }
 });
 
+router.post("/:id/post-check", verifyToken, async (req, res) => {
+  const { id } = req.params;
+  const { status, support_option } = req.body;
+
+  try {
+    const postCheck = await PostAppointmentCheck.findOne({
+      where: { appointmentId: id },
+    });
+    if (!postCheck)
+      return res
+        .status(404)
+        .json({ error: "Post-appointment check not found" });
+
+    postCheck.status = status;
+    postCheck.response_received_at = new Date();
+    if (status === "problem") {
+      postCheck.support_option_selected = support_option;
+    }
+    await postCheck.save();
+
+    res.json({ success: true, postCheck });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
 module.exports = router;

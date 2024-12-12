@@ -4,6 +4,8 @@ const authRoutes = require("./routes/auth");
 const appointmentRoutes = require("./routes/appointments");
 require("../jobs/scheduler");
 const locationTrackingRoutes = require("./routes/locationTracking");
+const cron = require("node-cron");
+const { checkPostAppointments } = require("../jobs/postAppointmentCheck");
 
 const app = express();
 
@@ -17,6 +19,11 @@ app.use("/auth", authRoutes);
 
 // Port d'écoute
 const PORT = process.env.PORT || 3000;
+
+cron.schedule("*/10 * * * *", async () => {
+  console.log("Vérification des RDV terminés...");
+  await checkPostAppointments();
+});
 
 app.get("/", (req, res) => {
   res.status(200).send("Test route working!");
