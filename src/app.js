@@ -4,8 +4,12 @@ const authRoutes = require("./routes/auth");
 const appointmentRoutes = require("./routes/appointments");
 require("../jobs/scheduler");
 const locationTrackingRoutes = require("./routes/locationTracking");
+const userRoutes = require("./routes/userRoutes");
+const { verifyToken } = require("../src/middleware/auth");
 const cron = require("node-cron");
 const { checkPostAppointments } = require("../jobs/postAppointmentCheck");
+
+require("dotenv").config();
 
 const app = express();
 
@@ -16,6 +20,7 @@ app.use(bodyParser.json());
 app.use("/locations", locationTrackingRoutes);
 app.use("/appointments", appointmentRoutes);
 app.use("/auth", authRoutes);
+app.use("/users", verifyToken, userRoutes);
 
 // Port d'écoute
 const PORT = process.env.PORT || 3000;
