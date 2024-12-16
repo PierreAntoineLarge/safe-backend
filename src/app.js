@@ -10,19 +10,26 @@ const cron = require("node-cron");
 const { checkPostAppointments } = require("../jobs/postAppointmentCheck");
 
 require("dotenv").config();
-
+const cors = require("cors");
 const app = express();
 
-// Middleware pour parser les requêtes JSON
+app.use(cors());
+
+app.use(
+  cors({
+    origin: "http://localhost:8081",
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    allowedHeaders: ["Content-Type", "Authorization"],
+  })
+);
+app.options("*", cors());
 app.use(bodyParser.json());
 
-// Définir les routes
 app.use("/locations", locationTrackingRoutes);
 app.use("/appointments", appointmentRoutes);
 app.use("/auth", authRoutes);
 app.use("/users", verifyToken, userRoutes);
 
-// Port d'écoute
 const PORT = process.env.PORT || 3000;
 
 cron.schedule("*/10 * * * *", async () => {
