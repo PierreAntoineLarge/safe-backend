@@ -1,3 +1,6 @@
+const db = require("../../models/index.js");
+const { User } = db;
+
 exports.updateEmergencyContact = async (req, res) => {
   const { emergencyContactEmail } = req.body;
 
@@ -6,7 +9,6 @@ exports.updateEmergencyContact = async (req, res) => {
   }
 
   try {
-    // Trouver l'utilisateur par l'ID du token
     const user = await User.findOne({ where: { id: req.userId } });
 
     if (!user) {
