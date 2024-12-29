@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const { User } = require("../../models"); // adapter selon ton chemin
+const { User } = require("../../models");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
@@ -8,6 +8,10 @@ router.post("/register", async (req, res) => {
   const { email, password } = req.body;
   const password_hash = await bcrypt.hash(password, 10);
   try {
+    const existingUser = await User.findOne({ where: { email } });
+    if (existingUser) {
+      throw new Error("Email déjà utilisé");
+    }
     const user = await User.create({
       email,
       password_hash,
