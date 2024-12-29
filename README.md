@@ -13,3 +13,5 @@ npm run start
 cd MonAppReactNative
 npm start
 w
+
+.
