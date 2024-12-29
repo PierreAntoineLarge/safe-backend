@@ -4,6 +4,7 @@ const { Op } = require("sequelize");
 
 const activateTracking = async () => {
   const now = moment().toISOString();
+  console.log(now);
   const appointments = await Appointment.findAll({
     where: {
       state: "planned",
@@ -45,3 +46,5 @@ cron.schedule("*/1 * * * *", () => {
   activateTracking();
   completeAppointments();
 });
+
+module.exports = { activateTracking, completeAppointments };
