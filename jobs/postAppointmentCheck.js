@@ -1,4 +1,5 @@
 const { Appointment, PostAppointmentCheck } = require("../models");
+const { Op } = require("sequelize");
 
 const checkPostAppointments = async () => {
   console.log("La fonction checkPostAppointments s'exécute !");

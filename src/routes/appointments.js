@@ -64,7 +64,6 @@ router.post("/:id/locations", async (req, res) => {
     if (!appointment)
       return res.status(404).json({ error: "Appointment not found" });
 
-    // Vérifie que le RDV est en état "tracking"
     if (appointment.state !== "tracking") {
       return res
         .status(400)

@@ -3,7 +3,6 @@ const router = express.Router();
 const { LocationTracking, Appointment } = require("../../models");
 const { verifyToken } = require("../middleware/auth");
 
-// Middleware pour vérifier que le RDV est en cours
 const verifyAppointmentState = async (req, res, next) => {
   const { appointmentId } = req.body;
   const appointment = await Appointment.findOne({
@@ -22,11 +21,12 @@ const verifyAppointmentState = async (req, res, next) => {
   next();
 };
 
-// Route pour envoyer la position GPS
 router.post("/", verifyToken, verifyAppointmentState, async (req, res) => {
   const { appointmentId, latitude, longitude, timestamp } = req.body;
 
   try {
+    console.trace("myFunction called");
+
     const location = await LocationTracking.create({
       appointmentId,
       latitude,
@@ -39,7 +39,6 @@ router.post("/", verifyToken, verifyAppointmentState, async (req, res) => {
   }
 });
 
-// Route pour récupérer les positions d’un RDV
 router.get("/:appointmentId", verifyToken, async (req, res) => {
   const { appointmentId } = req.params;
 
