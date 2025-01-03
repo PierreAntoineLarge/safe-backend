@@ -27,8 +27,6 @@ router.post("/login", async (req, res) => {
   const user = await User.findOne({ where: { email } });
   if (!user) return res.status(404).json({ error: "User not found" });
   const match = await bcrypt.compare(password, user.password_hash);
-  console.log(password);
-  console.log(user.password_hash);
   if (!match)
     return res.status(401).json({ error: "Email et/ou mot de passe invalide" });
 
@@ -36,6 +34,16 @@ router.post("/login", async (req, res) => {
     expiresIn: process.env.JWT_EXPIRES_IN,
   });
   res.json({ success: true, token });
+});
+
+router.post("/forgot-password", async (req, res) => {
+  const { email } = req.body;
+  const user = await User.findOne({ where: { email } });
+  if (!user) {
+    return res.status(404).json({ error: "User not found" });
+  }
+
+  res.json({ success: "email envoyé" });
 });
 
 module.exports = router;
