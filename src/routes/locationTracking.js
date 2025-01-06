@@ -25,8 +25,6 @@ router.post("/", verifyToken, verifyAppointmentState, async (req, res) => {
   const { appointmentId, latitude, longitude, timestamp } = req.body;
 
   try {
-    console.trace("myFunction called");
-
     const location = await LocationTracking.create({
       appointmentId,
       latitude,
