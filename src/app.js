@@ -34,7 +34,7 @@ app.use("/newpassword", passwordRoutes);
 const PORT = process.env.PORT || 3000;
 
 cron.schedule("*/10 * * * *", async () => {
-  console.log("Vérification des RDV terminés...");
+  console.log("Vérification des RDV terminés pour lancer la notification...");
   await checkPostAppointments();
 });
 
