@@ -14,4 +14,6 @@ cd MonAppReactNative
 npm start
 w
 
-.
+# available on l'app':
+
+npx expo start --tunnel
