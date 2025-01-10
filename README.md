@@ -8,12 +8,13 @@ sudo service mysql start
 # Démarrer l'app':
 
 cd backendsafe
+export HOST=0.0.0.0
 npm run start
 
 cd MonAppReactNative
-npm start
-w
-
-# available on l'app':
-
 npx expo start --tunnel
+r
+
+ngrok http 3000
+
+# Available on :
