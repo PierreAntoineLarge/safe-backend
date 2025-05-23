@@ -32,7 +32,7 @@ app.use("/users", verifyToken, userRoutes);
 app.use("/newpassword", passwordRoutes);
 
 const PORT = process.env.PORT || 3000;
-
+//mis en pause parce que 10 minutes c'est un enfer pour le dev
 // cron.schedule("*/10 * * * *", async () => {
 //   console.log("Vérification des RDV terminés pour lancer la notification...");
 //   await checkPostAppointments();

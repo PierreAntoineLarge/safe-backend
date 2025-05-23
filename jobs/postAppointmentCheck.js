@@ -5,12 +5,21 @@ const checkPostAppointments = async () => {
   console.log("La fonction checkPostAppointments s'exécute !");
 
   const now = new Date();
+  const nowPlus2h = new Date(now.getTime() + 2 * 60 * 60 * 1000);
+  console.log(nowPlus2h);
 
-  const threeHoursAgo = new Date(now.getTime() - 3 * 60 * 60 * 1000);
+  console.log(now);
+  // Calcul de la date 3h avant maintenant
+  const threeHoursAgo = new Date(nowPlus2h.getTime() - 3 * 60 * 60 * 1000);
+
+  // On définit une tolérance de ±1 minute (60 000 ms)
+  const lowerBound = new Date(threeHoursAgo.getTime() - 60_000);
+  const upperBound = new Date(threeHoursAgo.getTime() + 60_000);
+
   const appointments = await Appointment.findAll({
     where: {
       end_time: {
-        [Op.lt]: threeHoursAgo,
+        [Op.between]: [lowerBound, upperBound],
       },
       state: "completed",
     },
@@ -24,7 +33,7 @@ const checkPostAppointments = async () => {
     if (!existingCheck) {
       await PostAppointmentCheck.create({
         appointmentId: appointment.id,
-        notification_sent_at: now,
+        notification_sent_at: nowPlus2h,
         status: "pending",
         alert_sent_to_contact: false,
       });
