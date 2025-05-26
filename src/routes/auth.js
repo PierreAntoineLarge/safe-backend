@@ -23,6 +23,7 @@ router.post("/register", async (req, res) => {
 });
 
 router.post("/login", async (req, res) => {
+  console.log("Reçu :", req.body);
   const { email, password } = req.body;
   console.log(email, password);
 

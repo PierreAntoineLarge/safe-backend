@@ -1,9 +1,9 @@
 const express = require("express");
 const router = express.Router();
 const {
-  authenticateJWT,
   authorizeRole,
-} = require("../middleware/authorizeRole"); // adapte le chemin si nécessaire
+  authenticateJWT,
+} = require("../middleware/authorizeRole");
 
 router.get(
   "/admin/dashboard",

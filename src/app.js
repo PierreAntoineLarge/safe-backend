@@ -4,6 +4,7 @@ const authRoutes = require("./routes/auth");
 const appointmentRoutes = require("./routes/appointments");
 require("../jobs/scheduler");
 const locationTrackingRoutes = require("./routes/locationTracking");
+const adminRoute = require("./routes/admin");
 const passwordRoutes = require("./routes/passwordroutes");
 const userRoutes = require("./routes/userRoutes");
 const { verifyToken } = require("../src/middleware/auth");
@@ -26,6 +27,7 @@ app.options("*", cors());
 app.use(bodyParser.json());
 
 app.use("/locations", locationTrackingRoutes);
+app.use("/admin", adminRoute);
 app.use("/appointments", appointmentRoutes);
 app.use("/auth", authRoutes);
 app.use("/users", verifyToken, userRoutes);
