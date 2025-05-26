@@ -2,6 +2,7 @@ const jwt = require("jsonwebtoken");
 
 const verifyToken = (req, res, next) => {
   const token = req.headers["authorization"];
+  console.log("Authorization header reçu :", req.headers.authorization);
 
   if (!token) return res.status(403).json({ error: "No token provided" });
 
@@ -9,6 +10,7 @@ const verifyToken = (req, res, next) => {
     if (err) return res.status(401).json({ error: "Unauthiorized" });
 
     req.userId = decoded.id;
+    console.log(req.userId);
     next();
   });
 };

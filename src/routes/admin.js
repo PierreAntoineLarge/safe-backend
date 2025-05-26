@@ -5,13 +5,13 @@ const {
   authenticateJWT,
 } = require("../middleware/authorizeRole");
 
-router.get(
+router.post(
   "/admin/dashboard",
   authenticateJWT,
   authorizeRole("admin"),
   (req, res) => {
     console.log("titi");
-    res.send("Welcome admin!");
+    res.json({ message: "Welcome admin!" });
   }
 );
 

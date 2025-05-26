@@ -13,8 +13,15 @@ const { checkPostAppointments } = require("../jobs/postAppointmentCheck");
 require("dotenv").config();
 const cors = require("cors");
 const app = express();
+app.use((req, res, next) => {
+  res.setHeader("Access-Control-Allow-Origin", "*");
+  res.setHeader("Access-Control-Allow-Methods", "GET,POST,PUT,DELETE,OPTIONS");
+  res.setHeader("Access-Control-Allow-Headers", "*");
+  if (req.method === "OPTIONS") return res.sendStatus(200);
+  next();
+});
 
-app.use(cors());
+// ⚠️ Supprimé : app.use(cors());
 
 const allowedOrigins = [
   "http://localhost:8081",
@@ -24,6 +31,9 @@ const allowedOrigins = [
 app.use(
   cors({
     origin: function (origin, callback) {
+      console.log("Requête CORS reçue depuis :", origin); // Ajout ici
+
+      // Autoriser les requêtes sans origin (ex: curl, mobile app)
       if (!origin || allowedOrigins.includes(origin)) {
         callback(null, true);
       } else {
@@ -31,12 +41,14 @@ app.use(
       }
     },
     methods: ["GET", "POST", "PUT", "DELETE"],
-    allowedHeaders: ["Content-Type", "Authorization"],
+    allowedHeaders: ["Content-Type", "Authorization", "Cache-Control"], // ← ajoute ici
     credentials: true,
   })
 );
 
+// Prévol (preflight) OPTIONS requests pour tous les endpoints
 app.options("*", cors());
+
 app.use(bodyParser.json());
 
 app.use("/locations", locationTrackingRoutes);
@@ -47,11 +59,6 @@ app.use("/users", verifyToken, userRoutes);
 app.use("/newpassword", passwordRoutes);
 
 const PORT = process.env.PORT || 3000;
-//mis en pause parce que 10 minutes c'est un enfer pour le dev
-// cron.schedule("*/10 * * * *", async () => {
-//   console.log("Vérification des RDV terminés pour lancer la notification...");
-//   await checkPostAppointments();
-// });
 
 cron.schedule("*/1 * * * *", async () => {
   console.log("Vérification des RDV terminés pour lancer la notification...");
