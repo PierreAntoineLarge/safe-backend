@@ -10,6 +10,7 @@ router.get(
   authenticateJWT,
   authorizeRole("admin"),
   (req, res) => {
+    console.log("titi");
     res.send("Welcome admin!");
   }
 );
