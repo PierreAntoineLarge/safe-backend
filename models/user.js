@@ -15,6 +15,11 @@ module.exports = (sequelize, DataTypes) => {
     {
       email: DataTypes.STRING,
       password_hash: DataTypes.STRING,
+      role: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        defaultValue: "user",
+      },
       emergency_contact_email: DataTypes.STRING,
       reset_token: DataTypes.STRING,
       reset_token_expires: DataTypes.DATE,
