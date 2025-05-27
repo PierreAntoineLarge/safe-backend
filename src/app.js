@@ -31,7 +31,7 @@ const allowedOrigins = [
 app.use(
   cors({
     origin: function (origin, callback) {
-      console.log("Requête CORS reçue depuis :", origin); // Ajout ici
+      console.log("Requête CORS reçue depuis :", origin);
 
       // Autoriser les requêtes sans origin (ex: curl, mobile app)
       if (!origin || allowedOrigins.includes(origin)) {
