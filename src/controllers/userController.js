@@ -3,7 +3,7 @@ const crypto = require("crypto");
 const { User } = db;
 const axios = require("axios");
 const BREVO_API_KEY =
-  "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";
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTcsInJvbGUiOiJhZG1pbiIsImlhdCI6MTc0ODQyNTg3OCwiZXhwIjoxNzQ4NDI5NDc4fQ.JP5SHSYsMiHdwCuo36IZJEBIrsFP-5WNa23wyWQZkBU";
 
 exports.updateEmergencyContact = async (req, res) => {
   const { emergencyContactEmail } = req.body;
