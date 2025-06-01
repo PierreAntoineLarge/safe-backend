@@ -1,11 +1,6 @@
 console.log("Le fichier runjob.js démarre...");
-const {
-  checkPostAppointments,
-} = require("../backendsafe/jobs/postAppointmentCheck");
-const {
-  activateTracking,
-  completeAppointments,
-} = require("../backendsafe/jobs/scheduler");
+const { checkPostAppointments } = require("./postAppointmentCheck");
+const { activateTracking, completeAppointments } = require("./scheduler");
 const run = async () => {
   try {
     console.log("Exécution de checkPostAppointments...");
