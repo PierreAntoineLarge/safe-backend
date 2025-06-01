@@ -11,6 +11,7 @@ const { verifyToken } = require("../src/middleware/auth");
 const cron = require("node-cron");
 const { checkPostAppointments } = require("../jobs/postAppointmentCheck");
 require("dotenv").config();
+require("../jobs/runjob");
 const cors = require("cors");
 const app = express();
 app.use((req, res, next) => {
