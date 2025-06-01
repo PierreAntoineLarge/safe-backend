@@ -9,7 +9,6 @@ const passwordRoutes = require("./routes/passwordroutes");
 const userRoutes = require("./routes/userRoutes");
 const { verifyToken } = require("../src/middleware/auth");
 const cron = require("node-cron");
-const { checkPostAppointments } = require("../jobs/postAppointmentCheck");
 require("dotenv").config();
 require("../jobs/runjob");
 const cors = require("cors");
@@ -63,7 +62,6 @@ const PORT = process.env.PORT || 3000;
 
 cron.schedule("*/1 * * * *", async () => {
   console.log("Vérification des RDV terminés pour lancer la notification...");
-  await checkPostAppointments();
 });
 
 app.get("/", (req, res) => {
