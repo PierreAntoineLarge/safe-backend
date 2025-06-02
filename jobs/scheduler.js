@@ -1,6 +1,7 @@
 const moment = require("moment");
-const { Appointment, PostAppointmentCheck } = require("../models");
+const { Appointment, PostAppointmentCheck, User } = require("../models");
 const { Op } = require("sequelize");
+require("dotenv").config();
 
 const activateTracking = async () => {
   console.log("Scheduler script is running");
@@ -49,6 +50,56 @@ const completeAppointments = async () => {
     console.log(`Appointment completed for ID: ${appointment.id}`);
   });
 };
+const notifyCompletedAppointments = async (userId, AppointmentId) => {
+  console.log("✅ La fonction notifyCompletedAppointments s'exécute !");
+
+  const SibApiV3Sdk = require("sib-api-v3-sdk");
+
+  const apiKey = process.env.BREVO_API_KEY;
+  if (!apiKey) {
+    console.error("❌ La clé API BREVO n'est pas définie !");
+    return;
+  }
+  SibApiV3Sdk.ApiClient.instance.authentications["api-key"].apiKey = apiKey;
+  console.log("🔑 Clé API BREVO configurée.");
+
+  const apiInstance = new SibApiV3Sdk.TransactionalEmailsApi();
+
+  const link = `${process.env.API_URL}/${AppointmentId}`;
+  console.log("🔗 Lien généré :", link);
+  const user = await User.findOne({
+    where: { Id: userId },
+  });
+  const userEmail = user.dataValues.emergency_contact_email;
+  console.log(userEmail);
+
+  const sendEmail = async () => {
+    try {
+      console.log("🚀 Tentative d'envoi de l'email à :", userEmail);
+      const sendSmtpEmail = {
+        to: [{ email: userEmail }],
+        templateId: 1,
+        params: {
+          link: link,
+        },
+        headers: {
+          "X-Mailin-custom": "custom-header-value",
+        },
+      };
+
+      const data = await apiInstance.sendTransacEmail(sendSmtpEmail);
+      console.log("✅ Email envoyé avec succès !");
+      console.log("📬 ID du message :", data.messageId || data);
+    } catch (error) {
+      console.error("❌ Erreur lors de l’envoi du mail :");
+      console.error(error.response?.body || error);
+    }
+  };
+
+  console.log("📤 Appel de la fonction sendEmail...");
+  await sendEmail();
+  console.log("🏁 Fin de notifyCompletedAppointments.");
+};
 
 const checkPostAppointments = async () => {
   console.log("La fonction checkPostAppointments s'exécute !");
@@ -84,34 +135,14 @@ const checkPostAppointments = async () => {
         alert_sent_to_contact: false,
       });
 
+      const userId = appointment.userId;
+      console.log("User ID:", userId);
+      notifyCompletedAppointments(userId, appointment.id);
+
       console.log(`Notification envoyée pour le RDV ${appointment.id}`);
     }
   }
 };
-
-// const notifyCompletedAppointments = async () => {
-//   const now = new Date();
-//   const threeHoursAgo = new Date(now.getTime() - 3 * 60 * 60 * 1000);
-
-//   const appointments = await Appointment.findAll({
-//     where: {
-//       state: "completed",
-//       end_time: {
-//         [Op.lte]: threeHoursAgo,
-//       },
-//     },
-//   });
-
-//   for (const appointment of appointments) {
-//     // Ici tu pourrais envoyer une vraie notification (e-mail, push...)
-//     console.log(
-//       `Notification envoyée à l'utilisateur du RDV ${appointment.id} : "Votre rendez-vous est terminé. Tout s'est-il bien passé ?"`
-//     );
-
-//     appointment.state = "sent";
-//     await appointment.save();
-//   }
-// };
 
 const cron = require("node-cron");
 
