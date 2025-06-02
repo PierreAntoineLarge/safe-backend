@@ -2,6 +2,7 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const authRoutes = require("./routes/auth");
 const appointmentRoutes = require("./routes/appointments");
+const postAppointmentRoutes = require("./routes/postAppointment");
 require("../jobs/scheduler");
 const locationTrackingRoutes = require("./routes/locationTracking");
 const adminRoute = require("./routes/admin");
@@ -21,8 +22,6 @@ app.use((req, res, next) => {
   next();
 });
 
-// ⚠️ Supprimé : app.use(cors());
-
 const allowedOrigins = [
   "http://localhost:8081",
   "https://imn-46q-anonymous-8081.exp.direct",
@@ -33,7 +32,6 @@ app.use(
     origin: function (origin, callback) {
       console.log("Requête CORS reçue depuis :", origin);
 
-      // Autoriser les requêtes sans origin (ex: curl, mobile app)
       if (!origin || allowedOrigins.includes(origin)) {
         callback(null, true);
       } else {
@@ -41,12 +39,11 @@ app.use(
       }
     },
     methods: ["GET", "POST", "PUT", "DELETE"],
-    allowedHeaders: ["Content-Type", "Authorization", "Cache-Control"], // ← ajoute ici
+    allowedHeaders: ["Content-Type", "Authorization", "Cache-Control"],
     credentials: true,
   })
 );
 
-// Prévol (preflight) OPTIONS requests pour tous les endpoints
 app.options("*", cors());
 
 app.use(bodyParser.json());
@@ -57,6 +54,7 @@ app.use("/appointments", appointmentRoutes);
 app.use("/auth", authRoutes);
 app.use("/users", verifyToken, userRoutes);
 app.use("/newpassword", passwordRoutes);
+app.use("/postAppointment", postAppointmentRoutes);
 
 const PORT = process.env.PORT || 3000;
 

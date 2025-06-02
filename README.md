@@ -26,3 +26,5 @@ npm run start
 cd MonAppReactNative
 npx expo start --tunnel
 r
+
+NB : changer API_URL dans le back ET le front
