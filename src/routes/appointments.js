@@ -79,33 +79,36 @@ router.get("/:id/positions", async (req, res) => {
   }
 });
 
-router.post("/:id/locations", async (req, res) => {
-  const { id } = req.params;
-  const { latitude, longitude, timestamp } = req.body;
+router.post("/:id/positions", async (req, res) => {
+  console.log("📡 Requête reçue pour /appointments/:id/positions");
+  const appointmentId = req.params.id;
 
   try {
-    const appointment = await Appointment.findOne({
-      where: { id, userId: req.userId },
-    });
-    if (!appointment)
-      return res.status(404).json({ error: "Appointment not found" });
-
-    if (appointment.state !== "tracking") {
-      return res
-        .status(400)
-        .json({ error: "Location tracking not allowed for this appointment" });
+    const appointment = await Appointment.findByPk(appointmentId);
+    if (!appointment) {
+      // 👇 Forcer JSON même pour les erreurs
+      res.setHeader("Content-Type", "application/json");
+      return res.status(404).json({ error: "Appointment non trouvé" });
     }
 
-    const location = await LocationTracking.create({
-      appointmentId: id,
-      latitude,
-      longitude,
-      timestamp,
+    const positions = await LocationTracking.findAll({
+      where: { appointmentId },
+      order: [["timestamp", "ASC"]],
     });
 
-    res.json({ success: true, location });
+    const result = positions.map((pos) => ({
+      latitude: pos.latitude,
+      longitude: pos.longitude,
+      timestamp: pos.timestamp,
+    }));
+
+    // 👇 Forcer le Content-Type JSON pour éviter toute confusion ngrok
+    res.setHeader("Content-Type", "application/json");
+    res.status(200).json({ appointmentId, positions: result });
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    console.error("❌ Erreur lors de la récupération des positions :", error);
+    res.setHeader("Content-Type", "application/json");
+    res.status(500).json({ error: "Erreur serveur" });
   }
 });
 

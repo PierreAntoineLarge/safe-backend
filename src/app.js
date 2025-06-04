@@ -8,6 +8,7 @@ const locationTrackingRoutes = require("./routes/locationTracking");
 const adminRoute = require("./routes/admin");
 const passwordRoutes = require("./routes/passwordroutes");
 const userRoutes = require("./routes/userRoutes");
+import MapScreen from "./screens/MapScreen";
 const { verifyToken } = require("../src/middleware/auth");
 const cron = require("node-cron");
 require("dotenv").config();
@@ -25,6 +26,7 @@ app.use((req, res, next) => {
 const allowedOrigins = [
   "http://localhost:8081",
   "https://imn-46q-anonymous-8081.exp.direct",
+  "https://1412-77-141-189-221.ngrok-free.app",
 ];
 
 app.use(
@@ -51,6 +53,7 @@ app.use(bodyParser.json());
 app.use("/locations", locationTrackingRoutes);
 app.use("/admin", adminRoute);
 app.use("/appointments", appointmentRoutes);
+app.use("/map", mapRoutes);
 app.use("/auth", authRoutes);
 app.use("/users", verifyToken, userRoutes);
 app.use("/newpassword", passwordRoutes);
