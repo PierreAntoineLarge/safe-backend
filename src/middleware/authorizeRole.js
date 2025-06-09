@@ -1,9 +1,8 @@
-// src/middleware/authorizeRole.js
+const express = require("express");
 const jwt = require("jsonwebtoken");
+const router = express.Router();
+const { User } = require("../../models/user");
 
-/**
- * Middleware pour authentifier un utilisateur via JWT
- */
 function authenticateJWT(req, res, next) {
   const authHeader = req.headers.authorization;
   console.log("Authorization header reçu :", authHeader);
@@ -22,12 +21,16 @@ function authenticateJWT(req, res, next) {
     });
   }
 
+  console.log("== DEBUG JWT ==");
+  console.log("Authorization header brut :", req.headers.authorization);
+  console.log("Clé secrète utilisée :", JSON.stringify(process.env.JWT_SECRET));
+  console.log("Token sans Bearer :", token);
+  console.log("Clé secrète utilisée :", JSON.stringify(process.env.JWT_SECRET));
+
   jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
     if (err) {
       console.error("Erreur JWT :", err);
-      return res.status(403).json({
-        message: "Invalid or expired token",
-      });
+      return res.status(403).json({ message: "Invalid or expired token" });
     }
 
     req.user = decoded;
@@ -36,10 +39,7 @@ function authenticateJWT(req, res, next) {
   });
 }
 
-/**
- * Middleware pour autoriser l'accès selon le rôle utilisateur
- * Doit être utilisé après authenticateJWT
- */
+// Middleware d'autorisation par rôle
 function authorizeRole(...allowedRoles) {
   return (req, res, next) => {
     const userRole = req.user?.role;

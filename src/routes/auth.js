@@ -3,6 +3,7 @@ const router = express.Router();
 const { User } = require("../../models");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+require("dotenv").config();
 
 router.post("/register", async (req, res) => {
   const { email, password } = req.body;
@@ -15,6 +16,7 @@ router.post("/register", async (req, res) => {
     const user = await User.create({
       email,
       password_hash,
+      role: "user",
     });
     res.json({ success: true, user: { id: user.id, email: user.email } });
   } catch (error) {
@@ -34,6 +36,11 @@ router.post("/login", async (req, res) => {
     return res.status(401).json({ error: "Email et/ou mot de passe invalide" });
 
   const jwt = require("jsonwebtoken");
+  console.log("Rôle utilisé pour signer :", user.role);
+  console.log(
+    "Clé secrète utilisée pour signer :",
+    JSON.stringify(process.env.JWT_SECRET)
+  );
 
   const token = jwt.sign(
     { id: user.id, role: user.role },
