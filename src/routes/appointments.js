@@ -44,7 +44,10 @@ router.get("/current", async (req, res) => {
 
   try {
     console.log("🔍 Recherche d'un rendez-vous en cours...");
-
+    if (!userId) {
+      console.error("ID manquant !");
+      return res.status(400).json({ error: "ID requis" });
+    }
     const currentAppointment = await Appointment.findOne({
       where: {
         userId,
@@ -71,7 +74,7 @@ router.get("/current", async (req, res) => {
 router.get("/:id", async (req, res) => {
   const { id } = req.params;
   const userId = req.userId;
-
+  console.log("tu");
   try {
     const appointment = await Appointment.findOne({ where: { id, userId } });
     if (!appointment) {
