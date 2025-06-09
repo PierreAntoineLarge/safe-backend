@@ -6,6 +6,7 @@ const verifyToken = (req, res, next) => {
   console.log("Authorization header reçu :", req.headers.authorization);
 
   if (!token) return res.status(403).json({ error: "No token provided" });
+  console.log("Clé utilisée pour vérification :", process.env.JWT_SECRET);
 
   jwt.verify(token.split(" ")[1], process.env.JWT_SECRET, (err, decoded) => {
     if (err) {

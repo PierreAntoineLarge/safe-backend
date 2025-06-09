@@ -35,9 +35,13 @@ router.post("/login", async (req, res) => {
 
   const jwt = require("jsonwebtoken");
 
-  const token = jwt.sign({ id: user.id, role: user.role }, "shh", {
-    expiresIn: "12h",
-  });
+  const token = jwt.sign(
+    { id: user.id, role: user.role },
+    process.env.JWT_SECRET,
+    {
+      expiresIn: "12h",
+    }
+  );
 
   console.log(token);
   res.json({ success: true, token });
