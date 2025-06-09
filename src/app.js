@@ -8,7 +8,7 @@ const locationTrackingRoutes = require("./routes/locationTracking");
 const adminRoute = require("./routes/admin");
 const passwordRoutes = require("./routes/passwordroutes");
 const userRoutes = require("./routes/userRoutes");
-import MapScreen from "./screens/MapScreen";
+const mapRoutes = require("./routes/map");
 const { verifyToken } = require("../src/middleware/auth");
 const cron = require("node-cron");
 require("dotenv").config();
