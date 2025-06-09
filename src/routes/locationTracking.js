@@ -5,12 +5,15 @@ const { verifyToken } = require("../middleware/auth");
 
 const verifyAppointmentState = async (req, res, next) => {
   const { appointmentId } = req.body;
+  console.log("req.userId");
+
+  console.log(req.userId);
   const appointment = await Appointment.findOne({
     where: { id: appointmentId, userId: req.userId },
   });
 
   if (!appointment) {
-    return res.status(404).json({ error: "Appointment not found" });
+    return res.status(404).json({ error: "Appointment not found at all" });
   }
   if (appointment.state !== "tracking") {
     return res

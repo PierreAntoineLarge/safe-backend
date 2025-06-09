@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const { Appointment, LocationTracking, User } = require("../../models");
 const { verifyToken } = require("../middleware/auth");
+const { Op } = require("sequelize");
 
 router.use(verifyToken);
 
@@ -23,7 +24,6 @@ router.post("/", async (req, res) => {
   }
 });
 
-// Récupérer les RDV de l'utilisateur
 router.get("/", async (req, res) => {
   const userId = req.userId;
 
@@ -35,7 +35,39 @@ router.get("/", async (req, res) => {
   }
 });
 
-// Récupérer les détails d'un RDV
+router.get("/current", async (req, res) => {
+  const userId = req.userId;
+  const now = new Date();
+
+  console.log("🕒 Date actuelle :", now);
+  console.log("👤 userId récupéré :", userId);
+
+  try {
+    console.log("🔍 Recherche d'un rendez-vous en cours...");
+
+    const currentAppointment = await Appointment.findOne({
+      where: {
+        userId,
+        start_time: { [Op.lte]: now },
+        end_time: { [Op.gte]: now },
+      },
+    });
+
+    console.log("✅ Résultat de la recherche :", currentAppointment);
+
+    if (!currentAppointment) {
+      console.log("❌ Aucun rendez-vous en cours trouvé");
+      return res.status(204).send();
+    }
+
+    console.log("📦 Rendez-vous en cours trouvé, envoi de la réponse");
+    res.json({ success: true, appointment: currentAppointment });
+  } catch (error) {
+    console.error("💥 Erreur lors de la récupération du rendez-vous :", error);
+    res.status(500).json({ error: error.message });
+  }
+});
+
 router.get("/:id", async (req, res) => {
   const { id } = req.params;
   const userId = req.userId;
@@ -86,7 +118,6 @@ router.post("/:id/positions", async (req, res) => {
   try {
     const appointment = await Appointment.findByPk(appointmentId);
     if (!appointment) {
-      // 👇 Forcer JSON même pour les erreurs
       res.setHeader("Content-Type", "application/json");
       return res.status(404).json({ error: "Appointment non trouvé" });
     }
@@ -102,7 +133,6 @@ router.post("/:id/positions", async (req, res) => {
       timestamp: pos.timestamp,
     }));
 
-    // 👇 Forcer le Content-Type JSON pour éviter toute confusion ngrok
     res.setHeader("Content-Type", "application/json");
     res.status(200).json({ appointmentId, positions: result });
   } catch (error) {

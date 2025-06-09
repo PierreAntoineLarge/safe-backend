@@ -4,10 +4,7 @@ const { Op } = require("sequelize");
 require("dotenv").config();
 
 const activateTracking = async () => {
-  console.log("Scheduler script is running");
-
   const now = moment().toISOString();
-  console.log(now);
   const appointments = await Appointment.findAll({
     where: {
       state: "planned",
