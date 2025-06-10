@@ -17,8 +17,8 @@ const verifyAppointmentState = async (req, res, next) => {
   });
   if (appointment.state !== "tracking") {
     return res
-      .status(400)
-      .json({ "Appointment is not in tracking state" });
+      .status(200)
+      .json({ backendmessage: "Appointment is not in tracking state" });
   }
   req.appointment = appointment;
   next();
