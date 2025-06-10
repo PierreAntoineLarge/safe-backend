@@ -4,10 +4,7 @@ require("dotenv").config();
 const verifyToken = (req, res, next) => {
   const token = req.headers["authorization"];
 
-  console.log("Authorization header reçu :", req.headers.authorization);
-
   if (!token) return res.status(403).json({ error: "No token provided" });
-  console.log("Clé utilisée pour vérification :", process.env.JWT_SECRET);
 
   jwt.verify(token.split(" ")[1], process.env.JWT_SECRET, (err, decoded) => {
     if (err) {
@@ -16,7 +13,6 @@ const verifyToken = (req, res, next) => {
     }
 
     req.userId = decoded.id;
-    console.log(req.userId);
     next();
   });
 };
