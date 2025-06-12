@@ -27,6 +27,8 @@ const allowedOrigins = [
   "http://localhost:8081",
   "https://imn-46q-anonymous-8081.exp.direct",
   "https://1412-77-141-189-221.ngrok-free.app",
+  "https://12f1-77-141-189-221.ngrok-free.app",
+  "http://localhost:3000",
 ];
 
 app.use(
