@@ -1,3 +1,5 @@
+# explanations :
+
 # Démarrer la BDD :
 
 sudo apt update && sudo apt upgrade
