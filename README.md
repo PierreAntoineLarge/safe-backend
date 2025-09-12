@@ -1,13 +1,5 @@
 # SAFE :
 
-# Démarrer la BDD :
-
-sudo apt update && sudo apt upgrade
-sudo service mysql start
-
-si problème :
-sudo service mysql status
-
 # Démarrer l'app':
 
 ngrok http 3000
