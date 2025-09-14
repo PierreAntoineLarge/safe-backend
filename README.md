@@ -2,10 +2,13 @@
 
 # Démarrer l'app':
 
+cd backendsafe
 ngrok http 3000
 
 cd backendsafe
+Lancer docker deskstop
 export HOST=0.0.0.0
+coller le lien ngrok dans le .env du back et le .config du front
 npm run start
 
 # During dev :
