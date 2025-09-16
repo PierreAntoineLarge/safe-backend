@@ -18,9 +18,9 @@
   "production": {
     "username": "root",
     "password": "padeFiqZDyEUvulvGxdTpdIGsEyNOrIX",
-    "database": "mydatabase",
-    "host": "db",
-    "port": 5432,
-    "dialect": "postgres"
+    "database": "railway",
+    "host": "mysql.railway.internal",
+    "port": 3306,
+    "dialect": "mysql"
   }
 }
