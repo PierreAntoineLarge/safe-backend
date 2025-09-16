@@ -1,5 +1,3 @@
-# SAFE :
-
 # Démarrer l'app':
 
 cd backendsafe
