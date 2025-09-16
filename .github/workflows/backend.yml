@@ -78,8 +78,8 @@ jobs:
           DB_PORT: ${{ env.DB_PORT }}
           NODE_ENV: ${{ env.NODE_ENV }}
 
-      - name: Build (optional si besoin)
-        run: npm run build
+      # - name: Build (optional si besoin)
+      #   run: npm run build
 
       - name: Deploy backend
         if: github.ref == 'refs/heads/master'
