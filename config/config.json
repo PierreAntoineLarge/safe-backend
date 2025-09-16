@@ -19,7 +19,7 @@
     "username": "root",
     "password": "padeFiqZDyEUvulvGxdTpdIGsEyNOrIX",
     "database": "railway",
-    "host": "mysql.railway.internal",
+    "host": "ballast.proxy.rlwy.net:20165",
     "port": 3306,
     "dialect": "mysql"
   }
