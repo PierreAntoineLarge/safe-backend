@@ -58,8 +58,6 @@ jobs:
           done
           echo "✅ Postgres is ready!"
 
-          - name: Run migrations
-
       - name: Run migrations
         run: npx sequelize-cli db:migrate
         env:
