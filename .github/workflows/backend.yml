@@ -80,7 +80,7 @@ jobs:
 
       # Étapes de CD vers Railway
       - name: Install Railway CLI
-        run: npm install -g railway
+        run: npm install -g @railway/cli
 
       - name: Authenticate Railway
         env:
