@@ -3,21 +3,24 @@
     "username": "myuser",
     "password": "mypassword",
     "database": "mydatabase",
-    "host": "127.0.0.1",
+    "host": "db",
+    "port": 5432,
     "dialect": "postgres"
   },
   "test": {
-    "username": "root",
-    "password": "root",
-    "database": "database_development",
-    "host": "127.0.0.1",
-    "dialect": "mysql"
+    "username": "myuser",
+    "password": "mypassword",
+    "database": "mydatabase",
+    "host": "localhost",
+    "port": 5432,
+    "dialect": "postgres"
   },
   "production": {
-    "username": "root",
-    "password": null,
-    "database": "database_production",
-    "host": "127.0.0.1",
-    "dialect": "mysql"
+    "username": "myuser",
+    "password": "mypassword",
+    "database": "mydatabase",
+    "host": "db",
+    "port": 5432,
+    "dialect": "postgres"
   }
 }
