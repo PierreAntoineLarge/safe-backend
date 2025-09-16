@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: backendsafe
+        working-directory: .
 
     steps:
       - name: Checkout repo
@@ -31,6 +31,6 @@ jobs:
         run: npm run build
 
       - name: Deploy backend
-        if: github.ref == 'refs/heads/main'
+        if: github.ref == 'refs/heads/master'
         run: |
           echo "🚀 Déploiement du backend "
