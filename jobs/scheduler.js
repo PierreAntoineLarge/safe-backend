@@ -143,7 +143,7 @@ const checkPostAppointments = async () => {
 
 const cron = require("node-cron");
 
-cron.schedule("*/1 * * * *", () => {
+cron.schedule("*/10 * * * *", () => {
   activateTracking();
   console.log("activateTracking script is running!");
   trackposition();
