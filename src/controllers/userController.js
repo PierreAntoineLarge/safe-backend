@@ -1,5 +1,5 @@
 // backendsafe/src/controllers/userController.js
-const User = require("../../models/User"); // exemple de modèle Mongoose
+const User = require("../../models/user"); // exemple de modèle Mongoose
 
 async function updateEmergencyContact(req, res) {
   try {
