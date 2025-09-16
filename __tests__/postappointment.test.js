@@ -14,5 +14,6 @@ describe("PostAppointmentCheck Model Tests", () => {
     expect(newCheck).toBeDefined();
     expect(newCheck.appointmentId).toBe(1);
     expect(newCheck.status).toBe("Pending");
+    expect(newCheck.support_option_selected).toBe("Email");
   });
 });
