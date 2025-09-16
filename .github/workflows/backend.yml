@@ -5,12 +5,36 @@ on:
     branches: [master]
   pull_request:
     branches: [master]
+
 jobs:
   backend:
     runs-on: ubuntu-latest
     defaults:
       run:
         working-directory: .
+
+    services:
+      postgres:
+        image: postgres:15
+        env:
+          POSTGRES_USER: myuser
+          POSTGRES_PASSWORD: mypassword
+          POSTGRES_DB: mydatabase
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U myuser"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    env:
+      DB_HOST: localhost
+      DB_USER: myuser
+      DB_PASSWORD: mypassword
+      DB_NAME: mydatabase
+      DB_PORT: 5432
+      NODE_ENV: test
 
     steps:
       - name: Checkout repo
@@ -24,8 +48,25 @@ jobs:
       - name: Install dependencies
         run: yarn install
 
+      - name: Wait for Postgres
+        run: |
+          echo "⏳ Waiting for Postgres to be ready..."
+          for i in {1..20}; do
+            pg_isready -h localhost -p 5432 -U myuser && break
+            echo "Postgres not ready yet..."
+            sleep 3
+          done
+          echo "✅ Postgres is ready!"
+
       - name: Run tests
         run: yarn test
+        env:
+          DB_HOST: ${{ env.DB_HOST }}
+          DB_USER: ${{ env.DB_USER }}
+          DB_PASSWORD: ${{ env.DB_PASSWORD }}
+          DB_NAME: ${{ env.DB_NAME }}
+          DB_PORT: ${{ env.DB_PORT }}
+          NODE_ENV: ${{ env.NODE_ENV }}
 
       - name: Build (optional si besoin)
         run: npm run build
@@ -33,4 +74,4 @@ jobs:
       - name: Deploy backend
         if: github.ref == 'refs/heads/master'
         run: |
-          echo "🚀 Déploiement du backend "
+          echo "🚀 Déploiement du backend"
