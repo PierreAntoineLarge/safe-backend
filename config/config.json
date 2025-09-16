@@ -16,8 +16,8 @@
     "dialect": "postgres"
   },
   "production": {
-    "username": "myuser",
-    "password": "mypassword",
+    "username": "root",
+    "password": "padeFiqZDyEUvulvGxdTpdIGsEyNOrIX",
     "database": "mydatabase",
     "host": "db",
     "port": 5432,
