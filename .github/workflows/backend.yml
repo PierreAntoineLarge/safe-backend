@@ -1,0 +1,39 @@
+name: Backend CI/CD
+
+on:
+  push:
+    paths:
+      - "backendsafe/**"
+  pull_request:
+    paths:
+      - "backendsafe/**"
+
+jobs:
+  backend:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: backendsafe
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+
+      - name: Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: "20"
+
+      - name: Install dependencies
+        run: yarn install
+
+      - name: Run tests
+        run: yarn test
+
+      - name: Build (optional si besoin)
+        run: npm run build
+
+      - name: Deploy backend
+        if: github.ref == 'refs/heads/main'
+        run: |
+          echo "🚀 Déploiement du backend "
