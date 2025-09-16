@@ -4,7 +4,7 @@
   "main": "src/app.js",
   "scripts": {
     "test": "jest",
-    "start": "docker-compose up -d && ./wait-for-it.sh localhost:5432 -- nodemon src/app.js",
+    "start": "nodemon src/app.js",
     "run:job": "node runjob.js"
   },
   "keywords": [],
