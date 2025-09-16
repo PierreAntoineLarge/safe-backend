@@ -78,17 +78,3 @@ jobs:
           DB_PORT: ${{ env.DB_PORT }}
           NODE_ENV: ${{ env.NODE_ENV }}
 
-      # Étapes de CD vers Railway
-      - name: Install Railway CLI
-        run: npm install -g @railway/cli
-
-      - name: Authenticate Railway
-        env:
-          RAILWAY_API_KEY: ${{ secrets.RAILWAY_API_KEY }}
-        run: railway login --apiKey $RAILWAY_API_KEY
-
-      - name: Deploy to Railway
-        if: github.ref == 'refs/heads/master'
-        run: |
-          echo "🚀 Déploiement du backend sur Railway"
-          railway up --detach
