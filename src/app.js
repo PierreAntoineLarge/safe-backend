@@ -62,7 +62,7 @@ app.use("/postAppointment", postAppointmentRoutes);
 
 const PORT = process.env.PORT || 3000;
 
-cron.schedule("*/1 * * * *", async () => {
+cron.schedule("0 */10 * * *", async () => {
   console.log("Vérification des RDV terminés pour lancer la notification...");
 });
 
