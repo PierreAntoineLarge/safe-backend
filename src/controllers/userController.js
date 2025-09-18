@@ -1,16 +1,14 @@
-// backendsafe/src/controllers/userController.js
-const User = require("../../models/user"); // exemple de modèle Mongoose
+const User = require("../../models/user");
 
 async function updateEmergencyContact(req, res) {
   try {
     const { emergencyContactName, emergencyContactEmail } = req.body;
-    const userId = req.user.id; // supposons que l'user est authentifié
+    const userId = req.user.id;
 
     if (!emergencyContactName || !emergencyContactEmail) {
       return res.status(400).json({ error: "Champs manquants" });
     }
 
-    // Mettre à jour l'utilisateur
     const user = await User.findByIdAndUpdate(
       userId,
       { emergencyContactName, emergencyContactEmail },
