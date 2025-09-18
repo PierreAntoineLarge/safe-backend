@@ -48,6 +48,19 @@ jobs:
       - name: Install dependencies
         run: yarn install
 
+      # Analyse ESLint
+      - name: ESLint Check
+        run: |
+          echo "🔍 Running ESLint..."
+          yarn eslint . --max-warnings=0
+
+      # Analyse Prettier
+      - name: Prettier Check
+        run: |
+          echo "🎨 Running Prettier..."
+          yarn prettier --check "**/*.{js,ts,tsx,json,css,md}"
+
+
       - name: Wait for Postgres
         run: |
           echo "⏳ Waiting for Postgres to be ready..."
