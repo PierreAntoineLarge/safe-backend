@@ -21,14 +21,14 @@ const activateTracking = async () => {
   });
 };
 
-const trackposition = async () => {
-  const now = moment().toISOString();
-  const trackingstateappointments = await Appointment.findAll({
-    where: {
-      state: "tracking",
-    },
-  });
-};
+// const trackposition = async () => {
+//   const _now = moment().toISOString();
+//   const _trackingstateappointments = await Appointment.findAll({
+//     where: {
+//       state: "tracking",
+//     },
+//   });
+// };
 
 const completeAppointments = async () => {
   const now = moment().add(2, "hours").toISOString();

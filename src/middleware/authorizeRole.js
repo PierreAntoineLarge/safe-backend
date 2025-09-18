@@ -1,7 +1,4 @@
-const express = require("express");
 const jwt = require("jsonwebtoken");
-const router = express.Router();
-const { User } = require("../../models/user");
 
 function authenticateJWT(req, res, next) {
   const authHeader = req.headers.authorization;
@@ -39,7 +36,6 @@ function authenticateJWT(req, res, next) {
   });
 }
 
-// Middleware d'autorisation par rôle
 function authorizeRole(...allowedRoles) {
   return (req, res, next) => {
     const userRole = req.user?.role;

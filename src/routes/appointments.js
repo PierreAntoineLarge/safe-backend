@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const { Appointment, LocationTracking, User } = require("../../models");
+const { Appointment, LocationTracking } = require("../../models");
 const { verifyToken } = require("../middleware/auth");
 const { Op } = require("sequelize");
 
