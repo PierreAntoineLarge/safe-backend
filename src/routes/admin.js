@@ -13,7 +13,7 @@ router.post(
   (req, res) => {
     console.log("titi");
     res.json({ message: "Welcome admin!" });
-  }
+  },
 );
 
 router.post(
@@ -29,7 +29,7 @@ router.post(
       console.error("Error fetching users:", error);
       res.status(500).json({ message: "Internal server error" });
     }
-  }
+  },
 );
 
 router.post(
@@ -40,14 +40,14 @@ router.post(
     const userId = req.params.id;
     console.log(
       "➡️ Requête POST reçue pour modifier le rôle de l'utilisateur avec l'ID :",
-      userId
+      userId,
     );
 
     try {
       const user = await User.findByPk(userId);
       console.log(
         "🔍 Utilisateur trouvé :",
-        user ? user.toJSON() : "Aucun utilisateur trouvé"
+        user ? user.toJSON() : "Aucun utilisateur trouvé",
       );
 
       if (!user) {
@@ -74,7 +74,7 @@ router.post(
       console.error("❌ Erreur lors du changement de rôle :", error);
       res.status(500).json({ message: "Erreur serveur interne" });
     }
-  }
+  },
 );
 
 router.delete(
@@ -98,7 +98,7 @@ router.delete(
       console.error("Erreur lors de la suppression :", error);
       res.status(500).json({ message: "Erreur serveur interne" });
     }
-  }
+  },
 );
 
 module.exports = router;

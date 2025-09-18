@@ -29,7 +29,7 @@ async function updateEmergencyContact(req, res) {
     const user = await User.findByIdAndUpdate(
       userId,
       { emergencyContactName, emergencyContactEmail },
-      { new: true }
+      { new: true },
     );
 
     if (!user) {

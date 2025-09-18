@@ -44,7 +44,7 @@ app.use(
     methods: ["GET", "POST", "PUT", "DELETE"],
     allowedHeaders: ["Content-Type", "Authorization", "Cache-Control"],
     credentials: true,
-  })
+  }),
 );
 
 app.options("*", cors());

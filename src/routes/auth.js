@@ -38,7 +38,7 @@ router.post("/login", async (req, res) => {
   console.log("Rôle utilisé pour signer :", user.role);
   console.log(
     "Clé secrète utilisée pour signer :",
-    JSON.stringify(process.env.JWT_SECRET)
+    JSON.stringify(process.env.JWT_SECRET),
   );
 
   const token = jwt.sign(
@@ -46,7 +46,7 @@ router.post("/login", async (req, res) => {
     process.env.JWT_SECRET,
     {
       expiresIn: "12h",
-    }
+    },
   );
 
   console.log(token);
