@@ -1,6 +1,7 @@
 {
   "name": "backendsafe",
   "version": "1.0.0",
+  "type": "module",
   "main": "src/app.js",
   "scripts": {
     "test": "jest",
@@ -34,6 +35,7 @@
   },
   "devDependencies": {
     "eslint": "^9.35.0",
+    "eslint-define-config": "^2.1.0",
     "jest": "^29.7.0",
     "nodemon": "^3.1.7",
     "sequelize-cli": "^6.6.3"
