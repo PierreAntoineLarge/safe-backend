@@ -1,7 +1,6 @@
 {
   "name": "backendsafe",
   "version": "1.0.0",
-  "type": "module",
   "main": "src/app.js",
   "scripts": {
     "test": "jest",
@@ -24,6 +23,7 @@
     "dayjs": "^1.11.13",
     "dotenv": "^16.4.7",
     "express": "^4.21.2",
+    "express-validator": "^7.2.1",
     "jsonwebtoken": "^9.0.2",
     "mysql2": "^3.11.5",
     "node-cron": "^3.0.3",

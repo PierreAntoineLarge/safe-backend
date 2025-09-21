@@ -1,5 +1,5 @@
 {
-  "development": {
+  "production": {
     "username": "myuser",
     "password": "mypassword",
     "database": "mydatabase",
@@ -15,7 +15,7 @@
     "port": 5432,
     "dialect": "postgres"
   },
-  "production": {
+  "development": {
     "username": "root",
     "password": "padeFiqZDyEUvulvGxdTpdIGsEyNOrIX",
     "database": "railway",
