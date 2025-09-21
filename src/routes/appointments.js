@@ -74,7 +74,6 @@ router.get("/current", async (req, res) => {
 router.get("/:id", async (req, res) => {
   const { id } = req.params;
   const userId = req.userId;
-  console.log("tu");
   try {
     const appointment = await Appointment.findOne({ where: { id, userId } });
     if (!appointment) {
@@ -87,7 +86,6 @@ router.get("/:id", async (req, res) => {
 });
 
 router.get("/:id/positions", async (req, res) => {
-  console.log("titi");
   const appointmentId = req.params.id;
 
   try {

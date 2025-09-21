@@ -9,7 +9,6 @@ const adminRoute = require("./routes/admin");
 const passwordRoutes = require("./routes/passwordroutes");
 const userRoutes = require("./routes/userRoutes");
 const mapRoutes = require("./routes/map");
-const { verifyToken } = require("../src/middleware/auth");
 const cron = require("node-cron");
 require("dotenv").config();
 require("../jobs/runjob");
@@ -26,9 +25,7 @@ app.use((req, res, next) => {
 const allowedOrigins = [
   "http://localhost:8081",
   "https://imn-46q-anonymous-8081.exp.direct",
-  "https://1412-77-141-189-221.ngrok-free.app",
-  "https://12f1-77-141-189-221.ngrok-free.app",
-  "https://848a3a54d6cd.ngrok-free.app",
+  "https://5f38f7006002.ngrok-free.app",
   "http://localhost:3000",
 ];
 
@@ -44,7 +41,7 @@ app.use(
     methods: ["GET", "POST", "PUT", "DELETE"],
     allowedHeaders: ["Content-Type", "Authorization", "Cache-Control"],
     credentials: true,
-  }),
+  })
 );
 
 app.options("*", cors());
@@ -56,7 +53,7 @@ app.use("/admin", adminRoute);
 app.use("/appointments", appointmentRoutes);
 app.use("/map", mapRoutes);
 app.use("/auth", authRoutes);
-app.use("/users", verifyToken, userRoutes);
+app.use("/users", userRoutes);
 app.use("/newpassword", passwordRoutes);
 app.use("/postAppointment", postAppointmentRoutes);
 

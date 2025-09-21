@@ -1,7 +1,7 @@
 const { body, validationResult } = require("express-validator");
-const User = require("../../models/user");
+const { User } = require("../../models");
 
-async function updateEmergencyContact(req, res) {
+const updateEmergencyContact = async (req, res) => {
   try {
     await Promise.all([
       body("emergencyContactName")
@@ -24,22 +24,21 @@ async function updateEmergencyContact(req, res) {
     }
 
     const { emergencyContactName, emergencyContactEmail } = req.body;
-    const userId = req.user.id;
+    const userId = 1;
+    console.log("userId reçu :", req.userId);
 
-    const user = await User.findByIdAndUpdate(
-      userId,
-      { emergencyContactName, emergencyContactEmail },
-      { new: true },
-    );
+    const user = await User.findByPk(userId);
+    if (!user) return res.status(404).json({ error: "Utilisateur non trouvé" });
 
-    if (!user) {
-      return res.status(404).json({ error: "Utilisateur non trouvé" });
-    }
+    user.emergency_contact_name = emergencyContactName;
+    user.emergency_contact_email = emergencyContactEmail;
+    await user.save();
 
     res.json({ message: "Contact d'urgence mis à jour", user });
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: "Erreur serveur" });
   }
-}
+};
+
 module.exports = { updateEmergencyContact };

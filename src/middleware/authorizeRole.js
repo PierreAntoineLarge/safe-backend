@@ -18,15 +18,9 @@ function authenticateJWT(req, res, next) {
     });
   }
 
-  console.log("== DEBUG JWT ==");
-  console.log("Authorization header brut :", req.headers.authorization);
-  console.log("Clé secrète utilisée :", JSON.stringify(process.env.JWT_SECRET));
-  console.log("Token sans Bearer :", token);
-  console.log("Clé secrète utilisée :", JSON.stringify(process.env.JWT_SECRET));
-
   jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
     if (err) {
-      console.error("Erreur JWT :", err);
+      console.error("Erreur JW-T :", err);
       return res.status(403).json({ message: "Invalid or expired token" });
     }
 
